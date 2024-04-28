@@ -3,11 +3,11 @@ import { WeatherData } from "../interfaces/WeatherData";
 
 const LocationFetcher = ({
 	location,
+	onCoordsChange,
 	onLocationChange,
-	onWeatherChange,
 }: any) => {
 	const openCageAPIKey = process.env.REACT_APP_OPENCAGE_API_KEY;
-	const openWeatherAPIKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
+
 	const [latitude, setLatitude] = useState<number | null>(null);
 	const [longitude, setLongitude] = useState<number | null>(null);
 	//useEffect for current position
@@ -20,11 +20,6 @@ const LocationFetcher = ({
 			fetchCurrentLocation();
 		}
 	}, [latitude, longitude]);
-	useEffect(() => {
-		if (latitude && longitude) {
-			fetchCurrentWeather();
-		}
-	}, [latitude, longitude]);
 
 	const fetchCurrentPosition = () => {
 		if (navigator.geolocation) {
@@ -32,6 +27,7 @@ const LocationFetcher = ({
 				(position) => {
 					setLatitude(position.coords.latitude);
 					setLongitude(position.coords.longitude);
+					onCoordsChange({ latitude, longitude });
 				},
 				(error) => {
 					console.log(error);
@@ -54,19 +50,6 @@ const LocationFetcher = ({
 				const country = results.components.country;
 				onLocationChange(`${city}, ${state}, ${country}`);
 			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	const fetchCurrentWeather = async () => {
-		try {
-			const response = await fetch(
-				`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${openWeatherAPIKey}&units=metric`
-			);
-			const data: WeatherData = await response.json();
-
-			onWeatherChange(data);
 		} catch (error) {
 			console.log(error);
 		}

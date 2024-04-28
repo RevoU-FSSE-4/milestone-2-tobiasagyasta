@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { WeatherData } from "../interfaces/WeatherData";
+import { Coordinates } from "../interfaces/Coordinates";
 import LocationFetcher from "../components/LocationFetcher";
+import WeatherFetcher from "../components/WeatherFetcher";
 
 const Home = () => {
-	const [city, setCity] = useState("");
+	const [location, setLocation] = useState("");
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+	const [coords, setCoords] = useState<Coordinates | null>(null);
 
-	const handleCity = (city: string) => {
-		setCity(city);
+	const handleLocation = (city: string) => {
+		setLocation(city);
 	};
 	const handleWeather = (weather: WeatherData) => {
 		setWeatherData(weather);
+	};
+	const handleCoords = (coords: Coordinates) => {
+		setCoords(coords);
 	};
 	// const description = data.weather[0].description;
 	// const temperature = data.main.temp;
@@ -25,14 +31,21 @@ const Home = () => {
 	// const windDirection = data.wind.deg;
 	return (
 		<>
-			<div>My Location : {city}</div>
-
-			<div>Weather data : {weatherData?.weather[0]?.description}</div>
-			<div>Weather temperature : {weatherData?.main?.temp}</div>
-			{/* <LocationFetcher
-				onLocationChange={handleCity}
+			<LocationFetcher
+				onCoordsChange={handleCoords}
+				onLocationChange={handleLocation}
+			/>
+			<WeatherFetcher
+				latitude={coords?.latitude}
+				longitude={coords?.longitude}
 				onWeatherChange={handleWeather}
-			></LocationFetcher> */}
+			/>
+			<div>My Location : {location}</div>
+			<div>
+				Latitude : {coords?.latitude} Longitude : {coords?.longitude}
+			</div>
+			<div>Weather data : {weatherData?.weather[0]?.description}</div>
+			<div>Weather temperature : {weatherData?.main?.temp} Celcius</div>
 		</>
 	);
 };
