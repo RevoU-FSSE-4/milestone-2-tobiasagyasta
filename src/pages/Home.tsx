@@ -16,7 +16,9 @@ const Home = () => {
 		setWeatherData(weather);
 	};
 	const handleCoords = (coords: Coordinates) => {
-		setCoords(coords);
+		if (coords.latitude !== undefined && coords.longitude !== undefined) {
+			setCoords(coords);
+		}
 	};
 	// const description = data.weather[0].description;
 	// const temperature = data.main.temp;
@@ -36,8 +38,8 @@ const Home = () => {
 				onLocationChange={handleLocation}
 			/>
 			<WeatherFetcher
-				latitude={coords?.latitude}
-				longitude={coords?.longitude}
+				latitude={coords?.latitude !== undefined ? coords.latitude : null}
+				longitude={coords?.longitude !== undefined ? coords.longitude : null}
 				onWeatherChange={handleWeather}
 			/>
 			<div>My Location : {location}</div>

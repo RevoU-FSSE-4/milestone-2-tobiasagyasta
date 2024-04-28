@@ -4,7 +4,6 @@ const WeatherFetcher = ({ latitude, longitude, onWeatherChange }: any) => {
 	const openWeatherAPIKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
 	useEffect(() => {
 		if (latitude !== null && longitude !== null) {
-			console.log(latitude, longitude);
 			fetchCurrentWeather();
 		}
 	}, [latitude, longitude]);

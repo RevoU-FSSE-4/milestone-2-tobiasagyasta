@@ -27,7 +27,6 @@ const LocationFetcher = ({
 				(position) => {
 					setLatitude(position.coords.latitude);
 					setLongitude(position.coords.longitude);
-					onCoordsChange({ latitude, longitude });
 				},
 				(error) => {
 					console.log(error);
@@ -39,6 +38,7 @@ const LocationFetcher = ({
 	};
 	const fetchCurrentLocation = async () => {
 		try {
+			onCoordsChange({ latitude, longitude });
 			const response = await fetch(
 				`https://api.opencagedata.com/geocode/v1/json?q=${latitude}%2C+${longitude}&key=${openCageAPIKey}&pretty=1`
 			);
