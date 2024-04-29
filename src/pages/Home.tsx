@@ -4,6 +4,7 @@ import { Coordinates } from "../interfaces/Coordinates";
 import LocationFetcher from "../components/LocationFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
 import TimeFetcher from "../components/TimeFetcher";
+import SearchBar from "../components/SearchBar";
 
 const Home = () => {
 	const [location, setLocation] = useState("");
@@ -50,7 +51,7 @@ const Home = () => {
 	// const windDirection = data.wind.deg;
 	return (
 		<>
-			<LocationFetcher
+			{/* <LocationFetcher
 				onCoordsChange={handleCoords}
 				onLocationChange={handleLocation}
 				onCountryChange={handleCountryEmoji}
@@ -60,16 +61,17 @@ const Home = () => {
 				latitude={coords?.latitude ?? null}
 				longitude={coords?.longitude ?? null}
 				onWeatherChange={handleWeather}
-			/>
+			/> */}
 
 			<div className='flex flex-col justify-center items-center text-center'>
+				<SearchBar />
 				<h1 className='mb-4 text-lg font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
 					Current Location
 				</h1>
 				<div>
 					{location} {countryEmoji}
 				</div>
-				<TimeFetcher timezone={timeZone} />
+				{/* <TimeFetcher timezone={timeZone} /> */}
 				<div>
 					Latitude : {coords?.latitude} Longitude : {coords?.longitude}
 				</div>
