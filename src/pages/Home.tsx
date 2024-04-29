@@ -3,11 +3,16 @@ import { WeatherData } from "../interfaces/WeatherData";
 import { Coordinates } from "../interfaces/Coordinates";
 import LocationFetcher from "../components/LocationFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
+import TimeFetcher from "../components/TimeFetcher";
 
 const Home = () => {
 	const [location, setLocation] = useState("");
+	const [countryEmoji, setCountryEmoji] = useState("");
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [coords, setCoords] = useState<Coordinates | null>(null);
+	const [timeZone, setTimeZone] = useState<string | null>(null);
+	const [currentDate, setCurrentDate] = useState("");
+	const [currentTime, setCurrentTime] = useState("");
 
 	const handleLocation = (city: string) => {
 		setLocation(city);
@@ -18,6 +23,18 @@ const Home = () => {
 	const handleCoords = (coords: Coordinates) => {
 		if (coords.latitude !== undefined && coords.longitude !== undefined) {
 			setCoords(coords);
+		}
+	};
+	const handleTimeZone = (timeZone: string) => {
+		setTimeZone(timeZone);
+	};
+	const handleCountryEmoji = (emoji: string) => {
+		setCountryEmoji(emoji);
+	};
+	const handleTimeChange = ({ date, time }: any) => {
+		if (date !== undefined && time !== undefined) {
+			setCurrentDate(date);
+			setCurrentTime(time);
 		}
 	};
 	// const description = data.weather[0].description;
@@ -36,13 +53,19 @@ const Home = () => {
 			<LocationFetcher
 				onCoordsChange={handleCoords}
 				onLocationChange={handleLocation}
+				onCountryChange={handleCountryEmoji}
+				onTimeZoneChange={handleTimeZone}
 			/>
 			<WeatherFetcher
-				latitude={coords?.latitude !== undefined ? coords.latitude : null}
-				longitude={coords?.longitude !== undefined ? coords.longitude : null}
+				latitude={coords?.latitude ?? null}
+				longitude={coords?.longitude ?? null}
 				onWeatherChange={handleWeather}
 			/>
-			<div>My Location : {location}</div>
+
+			<div>
+				{location} {countryEmoji}
+			</div>
+			<TimeFetcher timezone={timeZone} />
 			<div>
 				Latitude : {coords?.latitude} Longitude : {coords?.longitude}
 			</div>

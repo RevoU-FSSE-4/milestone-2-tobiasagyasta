@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-import { WeatherData } from "../interfaces/WeatherData";
+import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
 const LocationFetcher = ({
 	location,
 	onCoordsChange,
 	onLocationChange,
+	onCountryChange,
+	onTimeZoneChange,
 }: any) => {
 	const openCageAPIKey = process.env.REACT_APP_OPENCAGE_API_KEY;
-
+	polyfillCountryFlagEmojis();
 	const [latitude, setLatitude] = useState<number | null>(null);
 	const [longitude, setLongitude] = useState<number | null>(null);
 	//useEffect for current position
@@ -48,16 +50,18 @@ const LocationFetcher = ({
 				const city = results.components.city;
 				const state = results.components.state;
 				const country = results.components.country;
+				const flag = results.annotations.flag;
+				const timezone = results.annotations.timezone.name;
 				onLocationChange(`${city}, ${state}, ${country}`);
+				onCountryChange(flag);
+				onTimeZoneChange(timezone);
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	return (
-		<>{/* <div>{`Latitude = ${latitude} Longitude = ${longitude}`}</div> */}</>
-	);
+	return <></>;
 };
 
 export default LocationFetcher;
