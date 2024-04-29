@@ -62,15 +62,35 @@ const Home = () => {
 				onWeatherChange={handleWeather}
 			/>
 
-			<div>
-				{location} {countryEmoji}
+			<div className='flex flex-col justify-center items-center text-center'>
+				<h1 className='mb-4 text-lg font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
+					Current Location
+				</h1>
+				<div>
+					{location} {countryEmoji}
+				</div>
+				<TimeFetcher timezone={timeZone} />
+				<div>
+					Latitude : {coords?.latitude} Longitude : {coords?.longitude}
+				</div>
+				<div>
+					<h1 className='mb-4 text-lg font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
+						Current Weather
+					</h1>
+					<div>
+						Weather description : {weatherData?.weather[0]?.description}
+					</div>
+					<div>
+						Weather temperature : {weatherData?.main?.temp} Celcius, feels like{" "}
+						{weatherData?.main.feels_like}
+					</div>
+					<div>Cloudiness : {weatherData?.clouds.all}</div>
+					<div>Visibility : {weatherData?.visibility}</div>
+					<div>
+						Wind : {weatherData?.wind.speed} {weatherData?.wind.deg}
+					</div>
+				</div>
 			</div>
-			<TimeFetcher timezone={timeZone} />
-			<div>
-				Latitude : {coords?.latitude} Longitude : {coords?.longitude}
-			</div>
-			<div>Weather data : {weatherData?.weather[0]?.description}</div>
-			<div>Weather temperature : {weatherData?.main?.temp} Celcius</div>
 		</>
 	);
 };
