@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { WeatherData } from "../interfaces/WeatherData";
 import { Coordinates } from "../interfaces/Coordinates";
 import LocationFetcher from "../components/LocationFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
 import TimeFetcher from "../components/TimeFetcher";
 import SearchBar from "../components/SearchBar";
+import LoadingOverlay from "react-loading-overlay-nextgen";
 
 const Home = () => {
 	const [location, setLocation] = useState("");
@@ -12,6 +13,7 @@ const Home = () => {
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [coords, setCoords] = useState<Coordinates | null>(null);
 	const [timeZone, setTimeZone] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const handleLocation = (city: string) => {
 		setLocation(city);
@@ -30,6 +32,11 @@ const Home = () => {
 	const handleCountryEmoji = (emoji: string) => {
 		setCountryEmoji(emoji);
 	};
+	useEffect(() => {
+		if (weatherData !== null) {
+			setIsLoading(false);
+		}
+	}, [weatherData]);
 	// const description = data.weather[0].description;
 	// const temperature = data.main.temp;
 	// const feelsLike = data.main.feels_like;
@@ -54,39 +61,40 @@ const Home = () => {
 				longitude={coords?.longitude ?? null}
 				onWeatherChange={handleWeather}
 			/>
-
-			<div className='flex flex-col justify-center items-center text-center'>
-				<SearchBar />
-				<h1 className='mb-4 text-base font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
-					Current Location
-				</h1>
-				<div>
-					{location} {countryEmoji}
-				</div>
-				<TimeFetcher timezone={timeZone} />
-				<div>
+			<LoadingOverlay active={isLoading} spinner text='Loading your content...'>
+				<div className='flex flex-col justify-center items-center text-center'>
+					<SearchBar />
 					<h1 className='mb-4 text-base font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
-						Current Weather
+						Current Location
 					</h1>
 					<div>
-						Weather description : {weatherData?.weather[0]?.description}
+						{location} {countryEmoji}
 					</div>
+					<TimeFetcher timezone={timeZone} />
 					<div>
-						Weather temperature : {weatherData?.main?.temp} Celcius, feels like{" "}
-						{weatherData?.main.feels_like}
+						<h1 className='mb-4 text-base font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
+							Current Weather
+						</h1>
+						<div>
+							Weather description : {weatherData?.weather[0]?.description}
+						</div>
+						<div>
+							Weather temperature : {weatherData?.main?.temp} Celcius, feels
+							like {weatherData?.main.feels_like}
+						</div>
+						<div>Cloudiness : {weatherData?.clouds.all}</div>
+						<div>Visibility : {weatherData?.visibility}</div>
+						<div>
+							Wind :
+							{weatherData?.wind.speed !== undefined
+								? weatherData?.wind?.speed * 3.6
+								: null}{" "}
+							km/h {weatherData?.wind.deg}
+						</div>
+						<div>Humidity : {weatherData?.main.humidity}</div>
 					</div>
-					<div>Cloudiness : {weatherData?.clouds.all}</div>
-					<div>Visibility : {weatherData?.visibility}</div>
-					<div>
-						Wind :
-						{weatherData?.wind.speed !== undefined
-							? weatherData?.wind?.speed * 3.6
-							: null}{" "}
-						km/h {weatherData?.wind.deg}
-					</div>
-					<div>Humidity : {weatherData?.main.humidity}</div>
 				</div>
-			</div>
+			</LoadingOverlay>
 		</>
 	);
 };
