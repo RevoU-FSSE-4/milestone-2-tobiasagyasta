@@ -51,13 +51,13 @@ const Home = () => {
 	// const windDirection = data.wind.deg;
 	return (
 		<>
-			{/* <LocationFetcher
+			<LocationFetcher
 				onCoordsChange={handleCoords}
 				onLocationChange={handleLocation}
 				onCountryChange={handleCountryEmoji}
 				onTimeZoneChange={handleTimeZone}
 			/>
-			<WeatherFetcher
+			{/* <WeatherFetcher
 				latitude={coords?.latitude ?? null}
 				longitude={coords?.longitude ?? null}
 				onWeatherChange={handleWeather}

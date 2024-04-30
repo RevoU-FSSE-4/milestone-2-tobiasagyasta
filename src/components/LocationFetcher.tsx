@@ -14,12 +14,16 @@ const LocationFetcher = ({
 	const [longitude, setLongitude] = useState<number | null>(null);
 	//useEffect for current position
 	useEffect(() => {
-		fetchCurrentPosition();
+		if (location === undefined) {
+			fetchCurrentPosition();
+		}
 	}, []);
 	//useEffect for current location
 	useEffect(() => {
 		if (latitude && longitude) {
-			fetchCurrentLocation();
+			if (location === undefined) {
+				fetchCurrentLocation();
+			}
 		}
 	}, [latitude, longitude]);
 
@@ -47,12 +51,11 @@ const LocationFetcher = ({
 			const data = await response.json();
 			if (data.results.length > 0) {
 				const results = data.results[0];
-				const city = results.components.city;
-				const state = results.components.state;
-				const country = results.components.country;
+				const formatted = results.formatted;
+				const cleanedAddress = formatted.replace(/\bunnamed road\b,?/i, "");
 				const flag = results.annotations.flag;
 				const timezone = results.annotations.timezone.name;
-				onLocationChange(`${city}, ${state}, ${country}`);
+				onLocationChange(cleanedAddress);
 				onCountryChange(flag);
 				onTimeZoneChange(timezone);
 			}
