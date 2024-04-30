@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 
 const LocationFetcher = ({
-	location,
+	latitudeProp,
+	longitudeProp,
 	onCoordsChange,
 	onLocationChange,
 	onCountryChange,
@@ -14,16 +15,18 @@ const LocationFetcher = ({
 	const [longitude, setLongitude] = useState<number | null>(null);
 	//useEffect for current position
 	useEffect(() => {
-		if (location === undefined) {
+		if (latitudeProp === undefined && longitudeProp === undefined) {
 			fetchCurrentPosition();
 		}
 	}, []);
 	//useEffect for current location
 	useEffect(() => {
-		if (latitude && longitude) {
-			if (location === undefined) {
+		if (latitudeProp === undefined && longitudeProp === undefined) {
+			if (latitude && longitude) {
 				fetchCurrentLocation();
 			}
+		} else {
+			fetchSearchedLocationTimezone(latitudeProp, longitudeProp);
 		}
 	}, [latitude, longitude]);
 
@@ -57,6 +60,24 @@ const LocationFetcher = ({
 				const timezone = results.annotations.timezone.name;
 				onLocationChange(cleanedAddress);
 				onCountryChange(flag);
+				onTimeZoneChange(timezone);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const fetchSearchedLocationTimezone = async (
+		latitudeProp: number,
+		longitudeProp: number
+	) => {
+		try {
+			const response = await fetch(
+				`https://api.opencagedata.com/geocode/v1/json?q=${latitudeProp}%2C+${longitudeProp}&key=${openCageAPIKey}&pretty=1`
+			);
+			const data = await response.json();
+			if (data.results.length > 0) {
+				const results = data.results[0];
+				const timezone = results.annotations.timezone.name;
 				onTimeZoneChange(timezone);
 			}
 		} catch (error) {

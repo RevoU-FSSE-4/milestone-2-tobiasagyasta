@@ -57,26 +57,23 @@ const Home = () => {
 				onCountryChange={handleCountryEmoji}
 				onTimeZoneChange={handleTimeZone}
 			/>
-			{/* <WeatherFetcher
+			<WeatherFetcher
 				latitude={coords?.latitude ?? null}
 				longitude={coords?.longitude ?? null}
 				onWeatherChange={handleWeather}
-			/> */}
+			/>
 
 			<div className='flex flex-col justify-center items-center text-center'>
 				<SearchBar />
-				<h1 className='mb-4 text-lg font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
+				<h1 className='mb-4 text-base font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
 					Current Location
 				</h1>
 				<div>
 					{location} {countryEmoji}
 				</div>
-				{/* <TimeFetcher timezone={timeZone} /> */}
+				<TimeFetcher timezone={timeZone} />
 				<div>
-					Latitude : {coords?.latitude} Longitude : {coords?.longitude}
-				</div>
-				<div>
-					<h1 className='mb-4 text-lg font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
+					<h1 className='mb-4 text-base font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl'>
 						Current Weather
 					</h1>
 					<div>
@@ -89,8 +86,13 @@ const Home = () => {
 					<div>Cloudiness : {weatherData?.clouds.all}</div>
 					<div>Visibility : {weatherData?.visibility}</div>
 					<div>
-						Wind : {weatherData?.wind.speed} {weatherData?.wind.deg}
+						Wind :
+						{weatherData?.wind.speed !== undefined
+							? weatherData?.wind?.speed * 3.6
+							: null}{" "}
+						km/h {weatherData?.wind.deg}
 					</div>
+					<div>Humidity : {weatherData?.main.humidity}</div>
 				</div>
 			</div>
 		</>
