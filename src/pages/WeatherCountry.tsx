@@ -112,10 +112,9 @@ const WeatherCountry = () => {
 					<div>
 						Wind :{" "}
 						{weatherData?.wind.speed !== undefined
-							? weatherData?.wind?.speed * 3.6
+							? (weatherData?.wind?.speed * 3.6).toFixed(2)
 							: null}{" "}
-						km/h
-						{weatherData?.wind.deg}
+						km/h {weatherData?.wind.deg}
 					</div>
 					<div>Humidity : {weatherData?.main.humidity}</div>
 				</div>

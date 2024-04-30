@@ -1,0 +1,43 @@
+{
+	"coord": {
+		"lon": 106.6533,
+		"lat": -6.2521
+	},
+	"weather": [
+		{
+			"id": 802,
+			"main": "Clouds",
+			"description": "scattered clouds",
+			"icon": "03n"
+		}
+	],
+	"base": "stations",
+	"main": {
+		"temp": 30.19,
+		"feels_like": 37.1,
+		"temp_min": 29.85,
+		"temp_max": 30.95,
+		"pressure": 1009,
+		"humidity": 76
+	},
+	"visibility": 6000,
+	"wind": {
+		"speed": 1.54,
+		"deg": 0
+	},
+	"clouds": {
+		"all": 40
+	},
+	"dt": 1714482169,
+	"sys": {
+		"type": 2,
+		"id": 2033644,
+		"country": "ID",
+		"sunrise": 1714431221,
+		"sunset": 1714474038
+	},
+	"timezone": 25200,
+	"id": 1646194,
+	"name": "Ciputat",
+	"cod": 200
+}

@@ -12,8 +12,6 @@ const Home = () => {
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [coords, setCoords] = useState<Coordinates | null>(null);
 	const [timeZone, setTimeZone] = useState<string | null>(null);
-	const [currentDate, setCurrentDate] = useState("");
-	const [currentTime, setCurrentTime] = useState("");
 
 	const handleLocation = (city: string) => {
 		setLocation(city);
@@ -31,12 +29,6 @@ const Home = () => {
 	};
 	const handleCountryEmoji = (emoji: string) => {
 		setCountryEmoji(emoji);
-	};
-	const handleTimeChange = ({ date, time }: any) => {
-		if (date !== undefined && time !== undefined) {
-			setCurrentDate(date);
-			setCurrentTime(time);
-		}
 	};
 	// const description = data.weather[0].description;
 	// const temperature = data.main.temp;
