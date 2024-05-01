@@ -6,6 +6,8 @@ import LocationFetcher from "../components/LocationFetcher";
 import TimeFetcher from "../components/TimeFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
 import { WeatherData } from "../interfaces/WeatherData";
+import "../styles/css/weather-icons.css";
+import "../styles/css/weather-icons-wind.css";
 
 const WeatherCountry = () => {
 	polyfillCountryFlagEmojis();
@@ -133,12 +135,12 @@ const WeatherCountry = () => {
 										xmlns='http://www.w3.org/2000/svg'
 										fill='none'
 										viewBox='0 0 24 24'
-										stroke-width='1.5'
+										strokeWidth='1.5'
 										stroke='currentColor'
 									>
 										<path
-											stroke-linecap='round'
-											stroke-linejoin='round'
+											strokeLinecap='round'
+											strokeLinejoin='round'
 											d='M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18'
 										/>
 									</svg>
@@ -189,7 +191,10 @@ const WeatherCountry = () => {
 								<div className='flex flex-col items-center'>
 									<div className='font-medium text-sm'>Wind</div>
 									<div className='text-sm text-gray-500'>
-										{(weatherData.wind.speed * 3.6).toFixed(1)}km/h
+										{(weatherData.wind.speed * 3.6).toFixed(1)}km/h{" "}
+										<i
+											className={`wi wi-wind towards-${weatherData.wind.deg}-deg text-base`}
+										/>
 									</div>
 								</div>
 								<div className='flex flex-col items-center'>
@@ -205,8 +210,12 @@ const WeatherCountry = () => {
 									</div>
 								</div>
 							</div>
-							<label className='mt-5 inline-flex justify-end items-center cursor-pointer'>
-								<span className='ms-3 text-sm font-medium text-gray-900 '>
+							<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
+								<span
+									className={`ms-3 text-sm ${
+										isCelcius ? `font-extrabold` : `font-normal`
+									}  text-gray-900`}
+								>
 									°C
 								</span>
 								<input
@@ -215,7 +224,11 @@ const WeatherCountry = () => {
 									className='sr-only peer'
 								/>
 								<div className="relative ms-3 w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  "></div>
-								<span className='ms-3 text-sm font-medium text-gray-900 '>
+								<span
+									className={`ms-3 text-sm ${
+										isCelcius ? `font-normal` : `font-extrabold`
+									}  text-gray-900`}
+								>
 									°F
 								</span>
 							</label>
