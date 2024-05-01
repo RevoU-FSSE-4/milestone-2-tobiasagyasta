@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { WeatherData } from "../interfaces/WeatherData";
 const WeatherFetcher = ({ latitude, longitude, onWeatherChange }: any) => {
 	const openWeatherAPIKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
+	/* eslint-disable */
 	useEffect(() => {
 		if (latitude !== null && longitude !== null) {
 			fetchCurrentWeather();
 		}
 	}, [latitude, longitude]);
-
+	/* eslint-enable */
 	const fetchCurrentWeather = async () => {
 		try {
 			const response = await fetch(

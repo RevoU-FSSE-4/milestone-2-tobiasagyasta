@@ -13,12 +13,14 @@ const LocationFetcher = ({
 	polyfillCountryFlagEmojis();
 	const [latitude, setLatitude] = useState<number | null>(null);
 	const [longitude, setLongitude] = useState<number | null>(null);
+	/* eslint-disable */
 	//useEffect for current position
 	useEffect(() => {
 		if (latitudeProp === undefined && longitudeProp === undefined) {
 			fetchCurrentPosition();
 		}
 	}, []);
+
 	//useEffect for current location
 	useEffect(() => {
 		if (latitudeProp === undefined && longitudeProp === undefined) {
@@ -29,6 +31,7 @@ const LocationFetcher = ({
 			fetchSearchedLocationTimezone(latitudeProp, longitudeProp);
 		}
 	}, [latitude, longitude]);
+	/* eslint-enable */
 
 	const fetchCurrentPosition = () => {
 		if (navigator.geolocation) {
@@ -54,7 +57,7 @@ const LocationFetcher = ({
 			const data = await response.json();
 			if (data.results.length > 0) {
 				const results = data.results[0];
-				console.log(results);
+
 				const formatted = `${results.components.city_district}, ${results.components.country}`;
 				const flag = results.annotations.flag;
 				const timezone = results.annotations.timezone.name;

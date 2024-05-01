@@ -5,7 +5,6 @@ import LocationFetcher from "../components/LocationFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
 import TimeFetcher from "../components/TimeFetcher";
 import SearchBar from "../components/SearchBar";
-import LoadingOverlay from "react-loading-overlay-nextgen";
 import "../styles/css/weather-icons.css";
 
 const Home = () => {
@@ -14,7 +13,6 @@ const Home = () => {
 	const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 	const [coords, setCoords] = useState<Coordinates | null>(null);
 	const [timeZone, setTimeZone] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [temperature, setTemperature] = useState<string | null>(null);
 	const [feelsLike, setFeelsLike] = useState<string | null>(null);
 	const [tempMin, setTempMin] = useState<string | null>(null);
@@ -38,11 +36,7 @@ const Home = () => {
 	const handleCountryEmoji = (emoji: string) => {
 		setCountryEmoji(emoji);
 	};
-	useEffect(() => {
-		if (weatherData !== null) {
-			setIsLoading(false);
-		}
-	}, [weatherData]);
+
 	useEffect(() => {
 		if (weatherData) {
 			setTemperature(weatherData.main.temp.toFixed(0));
@@ -88,6 +82,7 @@ const Home = () => {
 	const convertToCelcius = (fahrenheit: number) => {
 		return (((fahrenheit - 32) * 5) / 9).toFixed(0);
 	};
+
 	// const description = weatherData.weather[0].description;
 	// const temperature = weatherData.main.temp;
 	// const feelsLike = weatherData.main.feels_like;
@@ -112,14 +107,16 @@ const Home = () => {
 				longitude={coords?.longitude ?? null}
 				onWeatherChange={handleWeather}
 			/>
-			<LoadingOverlay active={isLoading} spinner text='Loading your content...'>
-				{weatherData !== undefined && weatherData !== null ? (
+
+			{weatherData !== undefined &&
+			weatherData !== null &&
+			timeZone !== null ? (
+				<>
 					<div className='min-h-screen flex items-center justify-center'>
 						<div className='flex flex-col bg-white rounded p-4 w-full max-w-xs text-center'>
-							<SearchBar></SearchBar>
 							<div className='font-bold text-xl'>{`${location} ${countryEmoji}`}</div>
 							<div className='text-sm text-gray-500'>
-								<TimeFetcher></TimeFetcher>
+								<TimeFetcher timezone={timeZone}></TimeFetcher>
 							</div>
 
 							<i
@@ -177,7 +174,8 @@ const Home = () => {
 									</div>
 								</div>
 							</div>
-							<label className='mt-5 inline-flex justify-end items-center cursor-pointer'>
+							<SearchBar></SearchBar>
+							<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
 								<span className='ms-3 text-sm font-medium text-gray-900 '>
 									°C
 								</span>
@@ -193,8 +191,10 @@ const Home = () => {
 							</label>
 						</div>
 					</div>
-				) : null}
-			</LoadingOverlay>
+				</>
+			) : (
+				<div className='animate-bounce text-center'>Loading your data...</div>
+			)}
 		</>
 	);
 };
