@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import moment from "moment-timezone";
+import MountTransition from "./MountTransition";
 const TimeFetcher = ({ timezone }: any) => {
 	const [currentDate, setCurrentDate] = useState("");
 	const [currentTime, setCurrentTime] = useState("");
@@ -17,13 +18,13 @@ const TimeFetcher = ({ timezone }: any) => {
 	return (
 		<>
 			{currentDate !== "" && currentTime !== "" && !isActive ? (
-				<div>
-					<div>{currentDate}</div>
-					<div>{currentTime}</div>
-				</div>
-			) : (
-				<div className='animate-bounce'>Getting date and time...</div>
-			)}
+				<MountTransition>
+					<div>
+						<div>{currentDate}</div>
+						<div>{currentTime}</div>
+					</div>
+				</MountTransition>
+			) : null}
 		</>
 	);
 };

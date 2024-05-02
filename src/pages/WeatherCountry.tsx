@@ -7,6 +7,7 @@ import LocationMap from "../components/LocationMap";
 import TimeFetcher from "../components/TimeFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
 import Loading from "./Loading";
+import MountTransition from "../components/MountTransition";
 import { WeatherData } from "../interfaces/WeatherData";
 import "../styles/css/weather-icons.css";
 import "../styles/css/weather-icons-wind.css";
@@ -148,78 +149,86 @@ const WeatherCountry = () => {
 									<span>Go Back</span>
 								</button>
 							</div>
-
-							<div className='mt-8 font-bold text-xl'>{`${city}, ${countryData.country} ${countryData.emoji_code}`}</div>
+							<MountTransition>
+								<div className='mt-8 font-bold text-xl mb-3'>{`${city}, ${countryData.country} ${countryData.emoji_code}`}</div>
+							</MountTransition>
 							<div className='text-sm text-gray-500'>
 								<TimeFetcher timezone={timeZone}></TimeFetcher>
 							</div>
+							<MountTransition>
+								<i
+									className={`mt-3 inline-flex items-center justify-center wi wi-owm-${weatherData.weather[0].id} text-blue-400 text-8xl`}
+								></i>
+							</MountTransition>
+							<MountTransition>
+								<div className='flex flex-row items-center justify-center mt-6'>
+									<div className=' flex flex-col text-center items-center'>
+										<span className=' relative font-semibold text-6xl left-1'>
+											{`${temperature}°${isCelcius ? "C" : "F"}`}
+										</span>
 
-							<i
-								className={`mt-3 inline-flex items-center justify-center wi wi-owm-${weatherData.weather[0].id} text-blue-400 text-8xl`}
-							></i>
-							<div className='flex flex-row items-center justify-center mt-6'>
-								<div className=' flex flex-col text-center items-center'>
-									<span className=' relative font-semibold text-6xl left-1'>
-										{`${temperature}°${isCelcius ? "C" : "F"}`}
-									</span>
+										<span className='font-light text-base'>
+											{`Feels like ${feelsLike}°${isCelcius ? "C" : "F"}`}
+										</span>
+									</div>
 
-									<span className='font-light text-base'>
-										{`Feels like ${feelsLike}°${isCelcius ? "C" : "F"}`}
-									</span>
-								</div>
-
-								<div className='flex flex-col items-center ml-6'>
-									<div>
-										{weatherData.weather[0].description
-											.charAt(0)
-											.toUpperCase() +
-											weatherData.weather[0].description.slice(1)}
-									</div>
-									<div className='mt-1'>
-										<span className='text-sm'>
-											<i className='far fa-long-arrow-up'></i>
-										</span>
-										<span className='text-sm font-light text-gray-500'>
-											{tempMax}°{isCelcius ? "C" : "F"}
-										</span>
-									</div>
-									<div>
-										<span className='text-sm'>
-											<i className='far fa-long-arrow-down'></i>
-										</span>
-										<span className='text-sm font-light text-gray-500'>
-											{tempMin}°{isCelcius ? "C" : "F"}
-										</span>
+									<div className='flex flex-col items-center ml-6'>
+										<div>
+											{weatherData.weather[0].description
+												.charAt(0)
+												.toUpperCase() +
+												weatherData.weather[0].description.slice(1)}
+										</div>
+										<div className='mt-1'>
+											<span className='text-sm'>
+												<i className='far fa-long-arrow-up'></i>
+											</span>
+											<span className='text-sm font-light text-gray-500'>
+												{tempMax}°{isCelcius ? "C" : "F"}
+											</span>
+										</div>
+										<div>
+											<span className='text-sm'>
+												<i className='far fa-long-arrow-down'></i>
+											</span>
+											<span className='text-sm font-light text-gray-500'>
+												{tempMin}°{isCelcius ? "C" : "F"}
+											</span>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div className='flex flex-row justify-between mt-6'>
-								<div className='flex flex-col items-center'>
-									<div className='font-medium text-sm'>Wind</div>
-									<div className='text-sm text-gray-500'>
-										{weatherData.wind.speed.toFixed(1)}m/s{" "}
-										<i
-											className={`wi wi-wind from-${weatherData.wind.deg}-deg text-base`}
-										/>
+							</MountTransition>
+							<MountTransition>
+								<div className='flex flex-row justify-between mt-6'>
+									<div className='flex flex-col items-center'>
+										<div className='font-medium text-sm'>Wind</div>
+										<div className='text-sm text-gray-500'>
+											{weatherData.wind.speed.toFixed(1)}m/s{" "}
+											<i
+												className={`wi wi-wind from-${weatherData.wind.deg}-deg text-base`}
+											/>
+										</div>
+									</div>
+									<div className='flex flex-col items-center'>
+										<div className='font-medium text-sm'>Humidity</div>
+										<div className='text-sm text-gray-500'>
+											{weatherData.main.humidity}%
+										</div>
+									</div>
+									<div className='flex flex-col items-center'>
+										<div className='font-medium text-sm'>Visibility</div>
+										<div className='text-sm text-gray-500'>
+											{weatherData.visibility / 1000}km
+										</div>
 									</div>
 								</div>
-								<div className='flex flex-col items-center'>
-									<div className='font-medium text-sm'>Humidity</div>
-									<div className='text-sm text-gray-500'>
-										{weatherData.main.humidity}%
-									</div>
-								</div>
-								<div className='flex flex-col items-center'>
-									<div className='font-medium text-sm'>Visibility</div>
-									<div className='text-sm text-gray-500'>
-										{weatherData.visibility / 1000}km
-									</div>
-								</div>
-							</div>
-							<LocationMap
-								latitude={countryLatitude ?? null}
-								longitude={countryLongitude ?? null}
-							/>
+							</MountTransition>
+							<MountTransition>
+								<LocationMap
+									latitude={countryLatitude ?? null}
+									longitude={countryLongitude ?? null}
+								/>
+							</MountTransition>
 							<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
 								<span
 									className={`ms-3 text-sm ${
