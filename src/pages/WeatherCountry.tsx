@@ -3,8 +3,10 @@ import data from "../data/CountryData.json";
 import { useEffect, useState } from "react";
 import { polyfillCountryFlagEmojis } from "country-flag-emoji-polyfill";
 import LocationFetcher from "../components/LocationFetcher";
+import LocationMap from "../components/LocationMap";
 import TimeFetcher from "../components/TimeFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
+import Loading from "./Loading";
 import { WeatherData } from "../interfaces/WeatherData";
 import "../styles/css/weather-icons.css";
 import "../styles/css/weather-icons-wind.css";
@@ -13,7 +15,8 @@ const WeatherCountry = () => {
 	polyfillCountryFlagEmojis();
 	const params = useParams();
 
-	const capital = params.capital;
+	const city = params.city;
+	console.log(city);
 	const navigate = useNavigate();
 	const [countryData, setCountryData] = useState<any>(null);
 	const [countryLatitude, setCountryLatitude] = useState<number | undefined>(
@@ -78,19 +81,17 @@ const WeatherCountry = () => {
 	};
 
 	useEffect(() => {
-		if (capital !== undefined) {
-			fetchCountryData(capital);
+		if (city !== undefined) {
+			fetchCountryData(city);
 		}
-	}, [capital]);
+	}, [city]);
 
 	const handleTimeZone = (timeZone: string) => {
 		setTimeZone(timeZone);
 	};
 
-	const fetchCountryData = (capital: string) => {
-		const countryDataObject = data.find(
-			(country) => country.capital === capital
-		);
+	const fetchCountryData = (city: string) => {
+		const countryDataObject = data.find((country) => country.city === city);
 		if (countryDataObject) {
 			setCountryData(countryDataObject);
 			setCountryLatitude(countryDataObject.latitude);
@@ -148,7 +149,7 @@ const WeatherCountry = () => {
 								</button>
 							</div>
 
-							<div className='mt-8 font-bold text-xl'>{`${capital}, ${countryData.country} ${countryData.emoji_code}`}</div>
+							<div className='mt-8 font-bold text-xl'>{`${city}, ${countryData.country} ${countryData.emoji_code}`}</div>
 							<div className='text-sm text-gray-500'>
 								<TimeFetcher timezone={timeZone}></TimeFetcher>
 							</div>
@@ -168,7 +169,12 @@ const WeatherCountry = () => {
 								</div>
 
 								<div className='flex flex-col items-center ml-6'>
-									<div>{weatherData.weather[0].description}</div>
+									<div>
+										{weatherData.weather[0].description
+											.charAt(0)
+											.toUpperCase() +
+											weatherData.weather[0].description.slice(1)}
+									</div>
 									<div className='mt-1'>
 										<span className='text-sm'>
 											<i className='far fa-long-arrow-up'></i>
@@ -191,9 +197,9 @@ const WeatherCountry = () => {
 								<div className='flex flex-col items-center'>
 									<div className='font-medium text-sm'>Wind</div>
 									<div className='text-sm text-gray-500'>
-										{(weatherData.wind.speed * 3.6).toFixed(1)}km/h{" "}
+										{weatherData.wind.speed.toFixed(1)}m/s{" "}
 										<i
-											className={`wi wi-wind towards-${weatherData.wind.deg}-deg text-base`}
+											className={`wi wi-wind from-${weatherData.wind.deg}-deg text-base`}
 										/>
 									</div>
 								</div>
@@ -210,6 +216,10 @@ const WeatherCountry = () => {
 									</div>
 								</div>
 							</div>
+							<LocationMap
+								latitude={countryLatitude ?? null}
+								longitude={countryLongitude ?? null}
+							/>
 							<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
 								<span
 									className={`ms-3 text-sm ${
@@ -236,7 +246,7 @@ const WeatherCountry = () => {
 					</div>
 				</div>
 			) : (
-				<div className='animate-bounce'>Loading your data...</div>
+				<Loading></Loading>
 			)}
 		</>
 	);

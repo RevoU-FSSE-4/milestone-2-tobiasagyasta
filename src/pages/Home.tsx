@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { WeatherData } from "../interfaces/WeatherData";
 import { Coordinates } from "../interfaces/Coordinates";
+import LocationMap from "../components/LocationMap";
 import LocationFetcher from "../components/LocationFetcher";
 import WeatherFetcher from "../components/WeatherFetcher";
 import TimeFetcher from "../components/TimeFetcher";
 import SearchBar from "../components/SearchBar";
+import Loading from "./Loading";
 import "../styles/css/weather-icons.css";
 import "../styles/css/weather-icons-wind.css";
 
@@ -113,9 +115,10 @@ const Home = () => {
 			weatherData !== null &&
 			timeZone !== null ? (
 				<>
-					<div className='min-h-screen flex items-center justify-center'>
+					<div className='min-h-screen flex flex-row-reverse items-center justify-center'>
 						<div className='flex flex-col bg-white rounded p-4 w-full max-w-xs text-center'>
 							<div className='font-bold text-xl'>{`${location} ${countryEmoji}`}</div>
+
 							<div className='text-sm text-gray-500'>
 								<TimeFetcher timezone={timeZone}></TimeFetcher>
 							</div>
@@ -136,7 +139,12 @@ const Home = () => {
 								</div>
 
 								<div className='flex flex-col items-center ml-6'>
-									<div>{weatherData.weather[0].description}</div>
+									<div>
+										{weatherData.weather[0].description
+											.charAt(0)
+											.toUpperCase() +
+											weatherData.weather[0].description.slice(1)}
+									</div>
 									<div className='mt-1'>
 										<span className='text-sm'>
 											<i className='far fa-long-arrow-up'></i>
@@ -159,9 +167,9 @@ const Home = () => {
 								<div className='flex flex-col items-center'>
 									<div className='font-medium text-sm'>Wind</div>
 									<div className='text-sm text-gray-500'>
-										{(weatherData.wind.speed * 3.6).toFixed(1)}km/h{" "}
+										{weatherData.wind.speed.toFixed(1)}m/s{" "}
 										<i
-											className={`wi wi-wind towards-${weatherData.wind.deg}-deg text-base`}
+											className={`wi wi-wind from-${weatherData.wind.deg}-deg text-base`}
 										/>
 									</div>
 								</div>
@@ -178,6 +186,11 @@ const Home = () => {
 									</div>
 								</div>
 							</div>
+							<LocationMap
+								latitude={coords?.latitude ?? null}
+								longitude={coords?.longitude ?? null}
+								mapFor='home'
+							/>
 							<SearchBar></SearchBar>
 							<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
 								<span
@@ -205,7 +218,7 @@ const Home = () => {
 					</div>
 				</>
 			) : (
-				<div className='animate-bounce text-center'>Loading your data...</div>
+				<Loading></Loading>
 			)}
 		</>
 	);
