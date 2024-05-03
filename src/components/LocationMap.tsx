@@ -7,7 +7,6 @@ function LocationMap({ latitude, longitude, mapFor }: any) {
 	if (mapFor === "home") {
 		zoom = 13; // Zoom level
 	}
-	console.log(zoom);
 
 	const width = 600; // Width of the map image
 	const height = 400; // Height of the map image

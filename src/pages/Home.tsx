@@ -8,6 +8,7 @@ import WeatherFetcher from "../components/WeatherFetcher";
 import TimeFetcher from "../components/TimeFetcher";
 import SearchBar from "../components/SearchBar";
 import Loading from "./Loading";
+import GradientBackground from "../components/GradientBackground";
 import "../styles/css/weather-icons.css";
 import "../styles/css/weather-icons-wind.css";
 
@@ -116,116 +117,118 @@ const Home = () => {
 			weatherData !== null &&
 			timeZone !== null ? (
 				<>
-					<div className='min-h-screen flex flex-row-reverse items-center justify-center'>
-						<div className='flex flex-col bg-white rounded p-4 w-full max-w-xs text-center'>
-							<MountTransition>
-								<div className='font-bold text-2xl mb-3'>{`${location} ${countryEmoji}`}</div>
-							</MountTransition>
+					<GradientBackground weatherID={weatherData.weather[0].id}>
+						<div className='min-h-screen flex flex-row-reverse items-center justify-center'>
+							<div className='flex flex-col bg-white rounded p-4 w-full max-w-xs text-center'>
+								<MountTransition>
+									<div className='font-bold text-2xl mb-3'>{`${location} ${countryEmoji}`}</div>
+								</MountTransition>
 
-							<div className='text-base text-gray-500'>
-								<TimeFetcher timezone={timeZone}></TimeFetcher>
+								<div className='text-base text-gray-500'>
+									<TimeFetcher timezone={timeZone}></TimeFetcher>
+								</div>
+
+								<MountTransition>
+									<i
+										className={`mt-3 inline-flex items-center justify-center wi wi-owm-${weatherData.weather[0].id} text-blue-400 text-8xl`}
+									></i>
+								</MountTransition>
+								<MountTransition>
+									<div className='flex flex-row items-center justify-center mt-6'>
+										<div className=' flex flex-col text-center items-center'>
+											<span className=' relative font-semibold text-6xl left-1'>
+												{`${temperature}°${isCelcius ? "C" : "F"}`}
+											</span>
+
+											<span className='font-light text-base'>
+												{`Feels like ${feelsLike}°${isCelcius ? "C" : "F"}`}
+											</span>
+										</div>
+
+										<div className='flex flex-col items-center ml-6'>
+											<div>
+												{weatherData.weather[0].description
+													.charAt(0)
+													.toUpperCase() +
+													weatherData.weather[0].description.slice(1)}
+											</div>
+											<div className='mt-1'>
+												<span className='text-sm'>
+													<i className='far fa-long-arrow-up'></i>
+												</span>
+												<span className='text-sm font-light text-gray-500'>
+													{tempMax}°{isCelcius ? "C" : "F"}
+												</span>
+											</div>
+											<div>
+												<span className='text-sm'>
+													<i className='far fa-long-arrow-down'></i>
+												</span>
+												<span className='text-sm font-light text-gray-500'>
+													{tempMin}°{isCelcius ? "C" : "F"}
+												</span>
+											</div>
+										</div>
+									</div>
+								</MountTransition>
+								<MountTransition>
+									<div className='flex flex-row justify-between mt-6'>
+										<div className='flex flex-col items-center'>
+											<div className='font-medium text-sm'>Wind</div>
+											<div className='text-sm text-gray-500'>
+												{weatherData.wind.speed.toFixed(1)}m/s{" "}
+												<i
+													className={`wi wi-wind from-${weatherData.wind.deg}-deg text-base`}
+												/>
+											</div>
+										</div>
+										<div className='flex flex-col items-center'>
+											<div className='font-medium text-sm'>Humidity</div>
+											<div className='text-sm text-gray-500'>
+												{weatherData.main.humidity}%
+											</div>
+										</div>
+										<div className='flex flex-col items-center'>
+											<div className='font-medium text-sm'>Visibility</div>
+											<div className='text-sm text-gray-500'>
+												{weatherData.visibility / 1000}km
+											</div>
+										</div>
+									</div>
+								</MountTransition>
+								<MountTransition>
+									<LocationMap
+										latitude={coords?.latitude ?? null}
+										longitude={coords?.longitude ?? null}
+										mapFor='home'
+									/>
+								</MountTransition>
+								<SearchBar></SearchBar>
+								<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
+									<span
+										className={`ms-3 text-sm ${
+											isCelcius ? `font-extrabold` : `font-normal`
+										}  text-gray-900`}
+									>
+										°C
+									</span>
+									<input
+										type='checkbox'
+										onClick={handleTempConversion}
+										className='sr-only peer'
+									/>
+									<div className="relative ms-3 w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  "></div>
+									<span
+										className={`ms-3 text-sm ${
+											isCelcius ? `font-normal` : `font-extrabold`
+										}  text-gray-900`}
+									>
+										°F
+									</span>
+								</label>
 							</div>
-
-							<MountTransition>
-								<i
-									className={`mt-3 inline-flex items-center justify-center wi wi-owm-${weatherData.weather[0].id} text-blue-400 text-8xl`}
-								></i>
-							</MountTransition>
-							<MountTransition>
-								<div className='flex flex-row items-center justify-center mt-6'>
-									<div className=' flex flex-col text-center items-center'>
-										<span className=' relative font-semibold text-6xl left-1'>
-											{`${temperature}°${isCelcius ? "C" : "F"}`}
-										</span>
-
-										<span className='font-light text-base'>
-											{`Feels like ${feelsLike}°${isCelcius ? "C" : "F"}`}
-										</span>
-									</div>
-
-									<div className='flex flex-col items-center ml-6'>
-										<div>
-											{weatherData.weather[0].description
-												.charAt(0)
-												.toUpperCase() +
-												weatherData.weather[0].description.slice(1)}
-										</div>
-										<div className='mt-1'>
-											<span className='text-sm'>
-												<i className='far fa-long-arrow-up'></i>
-											</span>
-											<span className='text-sm font-light text-gray-500'>
-												{tempMax}°{isCelcius ? "C" : "F"}
-											</span>
-										</div>
-										<div>
-											<span className='text-sm'>
-												<i className='far fa-long-arrow-down'></i>
-											</span>
-											<span className='text-sm font-light text-gray-500'>
-												{tempMin}°{isCelcius ? "C" : "F"}
-											</span>
-										</div>
-									</div>
-								</div>
-							</MountTransition>
-							<MountTransition>
-								<div className='flex flex-row justify-between mt-6'>
-									<div className='flex flex-col items-center'>
-										<div className='font-medium text-sm'>Wind</div>
-										<div className='text-sm text-gray-500'>
-											{weatherData.wind.speed.toFixed(1)}m/s{" "}
-											<i
-												className={`wi wi-wind from-${weatherData.wind.deg}-deg text-base`}
-											/>
-										</div>
-									</div>
-									<div className='flex flex-col items-center'>
-										<div className='font-medium text-sm'>Humidity</div>
-										<div className='text-sm text-gray-500'>
-											{weatherData.main.humidity}%
-										</div>
-									</div>
-									<div className='flex flex-col items-center'>
-										<div className='font-medium text-sm'>Visibility</div>
-										<div className='text-sm text-gray-500'>
-											{weatherData.visibility / 1000}km
-										</div>
-									</div>
-								</div>
-							</MountTransition>
-							<MountTransition>
-								<LocationMap
-									latitude={coords?.latitude ?? null}
-									longitude={coords?.longitude ?? null}
-									mapFor='home'
-								/>
-							</MountTransition>
-							<SearchBar></SearchBar>
-							<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
-								<span
-									className={`ms-3 text-sm ${
-										isCelcius ? `font-extrabold` : `font-normal`
-									}  text-gray-900`}
-								>
-									°C
-								</span>
-								<input
-									type='checkbox'
-									onClick={handleTempConversion}
-									className='sr-only peer'
-								/>
-								<div className="relative ms-3 w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  "></div>
-								<span
-									className={`ms-3 text-sm ${
-										isCelcius ? `font-normal` : `font-extrabold`
-									}  text-gray-900`}
-								>
-									°F
-								</span>
-							</label>
 						</div>
-					</div>
+					</GradientBackground>
 				</>
 			) : (
 				<Loading></Loading>
