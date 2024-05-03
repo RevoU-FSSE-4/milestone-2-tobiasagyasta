@@ -58,7 +58,7 @@ const Home = () => {
 			return "#302B63";
 		if (weatherID >= 300 && weatherID < 400)
 			//Drizzle
-			return "#E2E2E2";
+			return "#a69d9d";
 		if (weatherID >= 500 && weatherID < 600)
 			//Rain
 			return "#262626";
@@ -67,7 +67,7 @@ const Home = () => {
 			return "#B5D6FF";
 		if (weatherID >= 700 && weatherID < 800)
 			//Atmosphere
-			return "#ebe2c3";
+			return "#c2b582";
 		if (weatherID >= 800) {
 			// Clear
 			if (weatherID > 800) {
