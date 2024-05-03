@@ -30,7 +30,7 @@ const LocationFetcher = ({
 		} else {
 			fetchSearchedLocationTimezone(latitudeProp, longitudeProp);
 		}
-	}, [latitude, longitude]);
+	}, [latitude, longitude, latitudeProp, longitudeProp]);
 	/* eslint-enable */
 
 	const fetchCurrentPosition = () => {

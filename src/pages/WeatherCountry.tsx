@@ -9,6 +9,7 @@ import WeatherFetcher from "../components/WeatherFetcher";
 import Loading from "./Loading";
 import MountTransition from "../components/MountTransition";
 import GradientBackground from "../components/GradientBackground";
+import SearchBar from "../components/SearchBar";
 import { WeatherData } from "../interfaces/WeatherData";
 import "../styles/css/weather-icons.css";
 import "../styles/css/weather-icons-wind.css";
@@ -260,6 +261,7 @@ const WeatherCountry = () => {
 										longitude={countryLongitude ?? null}
 									/>
 								</MountTransition>
+								<SearchBar></SearchBar>
 								<label className='mt-5 flex flex-row justify-end items-center cursor-pointer'>
 									<span
 										className={`ms-3 text-sm ${
