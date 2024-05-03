@@ -128,7 +128,7 @@ const WeatherCountry = () => {
 				//Cloudy
 				return "#BDBDBD";
 			}
-			return "#f0f067";
+			return "#facc15";
 		}
 		return "#FFFFFF";
 	};
@@ -181,7 +181,10 @@ const WeatherCountry = () => {
 									</button>
 								</div>
 								<MountTransition>
-									<div className='mt-8 font-bold text-xl mb-3'>{`${city}, ${countryData.country} ${countryData.emoji_code}`}</div>
+									<div
+										className='mt-8 font-bold text-xl mb-3'
+										style={{ color: color }}
+									>{`${city}, ${countryData.country} ${countryData.emoji_code}`}</div>
 								</MountTransition>
 								<div className='text-sm text-gray-500'>
 									<TimeFetcher timezone={timeZone}></TimeFetcher>
@@ -195,7 +198,10 @@ const WeatherCountry = () => {
 								<MountTransition>
 									<div className='flex flex-row items-center justify-center mt-6'>
 										<div className=' flex flex-col text-center items-center'>
-											<span className=' relative font-semibold text-6xl left-1'>
+											<span
+												className=' relative font-semibold text-6xl left-1'
+												style={{ color: color }}
+											>
 												{`${temperature}°${isCelcius ? "C" : "F"}`}
 											</span>
 
@@ -204,7 +210,10 @@ const WeatherCountry = () => {
 											</span>
 										</div>
 
-										<div className='flex flex-col items-center ml-6'>
+										<div
+											className='flex flex-col items-center ml-6'
+											style={{ color: color }}
+										>
 											<div>
 												{weatherData.weather[0].description
 													.charAt(0)

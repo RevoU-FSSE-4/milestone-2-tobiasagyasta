@@ -74,7 +74,7 @@ const Home = () => {
 				//Cloudy
 				return "#BDBDBD";
 			}
-			return "#dbdb86";
+			return "#facc15";
 		}
 		return "#FFFFFF";
 	};
@@ -149,7 +149,10 @@ const Home = () => {
 						<div className='min-h-screen flex flex-row-reverse items-center justify-center'>
 							<div className='flex flex-col bg-white rounded p-4 w-full max-w-xs text-center'>
 								<MountTransition>
-									<div className='font-bold text-2xl mb-3'>{`${location} ${countryEmoji}`}</div>
+									<div
+										className='font-bold text-2xl mb-3'
+										style={{ color: color }}
+									>{`${location} ${countryEmoji}`}</div>
 								</MountTransition>
 
 								<div className='text-base text-gray-500'>
@@ -165,7 +168,10 @@ const Home = () => {
 								<MountTransition>
 									<div className='flex flex-row items-center justify-center mt-6'>
 										<div className=' flex flex-col text-center items-center'>
-											<span className=' relative font-semibold text-6xl left-1'>
+											<span
+												className=' relative font-semibold text-6xl left-1'
+												style={{ color: color }}
+											>
 												{`${temperature}°${isCelcius ? "C" : "F"}`}
 											</span>
 
@@ -175,7 +181,7 @@ const Home = () => {
 										</div>
 
 										<div className='flex flex-col items-center ml-6'>
-											<div>
+											<div style={{ color: color }}>
 												{weatherData.weather[0].description
 													.charAt(0)
 													.toUpperCase() +
