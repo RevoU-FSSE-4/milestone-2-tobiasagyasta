@@ -57,7 +57,7 @@ const LocationFetcher = ({
 			const data = await response.json();
 			if (data.results.length > 0) {
 				const results = data.results[0];
-				console.log(results);
+
 				const formatted = `${results.components.city}, ${results.components.country}`;
 				const flag = results.annotations.flag;
 				const timezone = results.annotations.timezone.name;

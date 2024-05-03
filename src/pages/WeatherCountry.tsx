@@ -19,7 +19,7 @@ const WeatherCountry = () => {
 	const params = useParams();
 
 	const city = params.city;
-	console.log(city);
+
 	const navigate = useNavigate();
 	const [countryData, setCountryData] = useState<any>(null);
 	const [countryLatitude, setCountryLatitude] = useState<number | undefined>(

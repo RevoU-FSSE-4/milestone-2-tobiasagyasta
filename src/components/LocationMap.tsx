@@ -3,7 +3,7 @@ import React from "react";
 function LocationMap({ latitude, longitude, mapFor }: any) {
 	const accessToken =
 		"pk.eyJ1IjoidGhhbG9tb2FuIiwiYSI6ImNsdmtwaGZkdjAwc2cybHBvdTllZWY3eTcifQ.sNGrknp1jcP_nmULOuVjAA"; // Your Mapbox access token
-	let zoom = 12;
+	let zoom = 9;
 	if (mapFor === "home") {
 		zoom = 13; // Zoom level
 	}
