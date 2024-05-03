@@ -24,7 +24,7 @@ export const GradientBackground: React.FC<GradientBackgroundProps> = ({
 			return { from: "#FFFFFF", to: "#B5D6FF", transition: "#B5D6FF" };
 		if (weatherID >= 700 && weatherID < 800)
 			//Atmosphere
-			return { from: "#E0E0E0", to: "#BDBDBD", transition: "#BDBDBD" };
+			return { from: "#E0E0E0", to: "#ebe2c3", transition: "#ebe2c3" };
 		if (weatherID >= 800) {
 			// Clear
 			if (weatherID > 800) {

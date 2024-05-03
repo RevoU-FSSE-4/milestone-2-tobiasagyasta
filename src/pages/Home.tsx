@@ -23,6 +23,7 @@ const Home = () => {
 	const [tempMin, setTempMin] = useState<string | null>(null);
 	const [tempMax, setTempMax] = useState<string | null>(null);
 	const [isCelcius, setIsCelcius] = useState<boolean>(true);
+	const [color, setColor] = useState<string>("#FFFFFF");
 
 	const handleLocation = (city: string) => {
 		setLocation(city);
@@ -48,8 +49,35 @@ const Home = () => {
 			setFeelsLike(weatherData.main.feels_like.toFixed(0));
 			setTempMax(weatherData.main.temp_max.toFixed(0));
 			setTempMin(weatherData.main.temp_min.toFixed(0));
+			setColor(getColor(weatherData.weather[0].id));
 		}
 	}, [weatherData]);
+	const getColor = (weatherID: number) => {
+		if (weatherID >= 200 && weatherID < 300)
+			//Thunderstorm
+			return "#302B63";
+		if (weatherID >= 300 && weatherID < 400)
+			//Drizzle
+			return "#E2E2E2";
+		if (weatherID >= 500 && weatherID < 600)
+			//Rain
+			return "#262626";
+		if (weatherID >= 600 && weatherID < 700)
+			//Snow
+			return "#B5D6FF";
+		if (weatherID >= 700 && weatherID < 800)
+			//Atmosphere
+			return "#ebe2c3";
+		if (weatherID >= 800) {
+			// Clear
+			if (weatherID > 800) {
+				//Cloudy
+				return "#BDBDBD";
+			}
+			return "#dbdb86";
+		}
+		return "#FFFFFF";
+	};
 
 	const handleTempConversion = () => {
 		if (isCelcius) {
@@ -130,7 +158,8 @@ const Home = () => {
 
 								<MountTransition>
 									<i
-										className={`mt-3 inline-flex items-center justify-center wi wi-owm-${weatherData.weather[0].id} text-blue-400 text-8xl`}
+										className={`mt-5 inline-flex items-center justify-center wi wi-owm-${weatherData.weather[0].id}  text-9xl`}
+										style={{ color: color }}
 									></i>
 								</MountTransition>
 								<MountTransition>
